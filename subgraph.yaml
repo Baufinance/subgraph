@@ -1,0 +1,36 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Factory
+    network: mainnet
+    source:
+      address: "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B"
+      abi: Factory
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - NewPendingImplementation
+        - NewImplementation
+        - NewPendingAdmin
+        - NewAdmin
+        - Failure
+      abis:
+        - name: Factory
+          file: ./abis/Factory.json
+      eventHandlers:
+        - event: NewPendingImplementation(address,address)
+          handler: handleNewPendingImplementation
+        - event: NewImplementation(address,address)
+          handler: handleNewImplementation
+        - event: NewPendingAdmin(address,address)
+          handler: handleNewPendingAdmin
+        - event: NewAdmin(address,address)
+          handler: handleNewAdmin
+        - event: Failure(uint256,uint256,uint256)
+          handler: handleFailure
+      file: ./src/factory.ts

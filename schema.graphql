@@ -1,0 +1,45 @@
+type NewPendingImplementation @entity(immutable: true) {
+  id: Bytes!
+  oldPendingImplementation: Bytes! # address
+  newPendingImplementation: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewImplementation @entity(immutable: true) {
+  id: Bytes!
+  oldImplementation: Bytes! # address
+  newImplementation: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewPendingAdmin @entity(immutable: true) {
+  id: Bytes!
+  oldPendingAdmin: Bytes! # address
+  newPendingAdmin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type NewAdmin @entity(immutable: true) {
+  id: Bytes!
+  oldAdmin: Bytes! # address
+  newAdmin: Bytes! # address
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Failure @entity(immutable: true) {
+  id: Bytes!
+  error: BigInt! # uint256
+  info: BigInt! # uint256
+  detail: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
