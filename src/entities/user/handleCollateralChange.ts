@@ -1,4 +1,4 @@
-import { lcUserDepositState } from '../collateral/UserDepositState';
+import { lcUserDepositState } from './UserDepositState';
 import { Block, UserDeposit } from '../../../generated/schema';
 import { lBlock } from '../blockchain';
 import { makeBlockId } from '../../utils/ids';

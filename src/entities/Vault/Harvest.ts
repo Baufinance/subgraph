@@ -1,5 +1,5 @@
-import { Block } from './../../../generated/schema';
-import { StrategyReported, Vault as VaultContract } from './../../../generated/templates/Vault/Vault';
+import { Block } from '../../../generated/schema';
+import { StrategyReported, Vault as VaultContract } from '../../../generated/templates/Vault/Vault';
 import { Harvest, Vault } from '../../../generated/schema';
 import { makeHarvestId } from '../../utils/ids';
 import { Address } from '@graphprotocol/graph-ts';

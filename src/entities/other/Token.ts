@@ -1,4 +1,4 @@
-import { ERC20 } from './../../../generated/templates/Vault/ERC20';
+import { ERC20 } from '../../../generated/templates/Vault/ERC20';
 import { Address } from '@graphprotocol/graph-ts';
 import { Token } from '../../../generated/schema';
 

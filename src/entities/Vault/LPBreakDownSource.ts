@@ -1,5 +1,5 @@
-import { Registry } from './../../../generated/templates/Vault/Registry';
-import { LPBreakdownSource } from './../../../generated/schema';
+import { Registry } from '../../../generated/templates/Vault/Registry';
+import { LPBreakdownSource } from '../../../generated/schema';
 import { Vault } from '../../../generated/schema';
 import { makeIdFromAddress } from '../../utils/ids';
 import { REGISTRY_ADDRESS } from '../../utils';

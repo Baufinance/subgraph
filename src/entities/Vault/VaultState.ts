@@ -1,7 +1,7 @@
 import { BigInt } from '@graphprotocol/graph-ts';
 import { Address } from '@graphprotocol/graph-ts';
 import { Vault, VaultState } from '../../../generated/schema';
-import { Vault as VaultContract } from './../../../generated/templates/Vault/Vault';
+import { Vault as VaultContract } from '../../../generated/templates/Vault/Vault';
 
 
 export function cuVaultState(

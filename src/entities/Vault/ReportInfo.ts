@@ -1,5 +1,5 @@
-import { ReportInfo } from './../../../generated/schema';
-import { StrategyReported } from './../../../generated/templates/Vault/Vault';
+import { ReportInfo } from '../../../generated/schema';
+import { StrategyReported } from '../../../generated/templates/Vault/Vault';
 import { Harvest } from '../../../generated/schema';
 import { makeIdFromAddress } from '../../utils/ids';
 import { makeReportInfoId } from '../../utils/ids/makeReportInfoId';

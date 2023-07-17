@@ -1,5 +1,5 @@
-import {  Strategy } from './../../../generated/schema';
-import { StrategyAdded } from './../../../generated/templates/Vault/Vault';
+import {  Strategy } from '../../../generated/schema';
+import { StrategyAdded } from '../../../generated/templates/Vault/Vault';
 import { Vault } from '../../../generated/schema';
 import { makeIdFromAddress } from '../../utils/ids';
 import { Address } from '@graphprotocol/graph-ts';

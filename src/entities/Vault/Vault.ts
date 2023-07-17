@@ -1,8 +1,8 @@
-import { LPToken } from './../../../generated/CurveFactory/LPToken';
-import { Vault as VaultContract } from './../../../generated/templates/Vault/Vault';
+import { LPToken } from '../../../generated/CurveFactory/LPToken';
+import { Vault as VaultContract } from '../../../generated/templates/Vault/Vault';
 import { Vault } from '../../../generated/schema';
 import { makeIdFromAddress } from '../../utils/ids';
-import { lcToken } from '../shared';
+import { lcToken } from '../other';
 import { NewVault } from '../../../generated/CurveFactory/CurveFactory';
 import { CurveTypeNames } from '../../utils';
 import { cuVaultState } from './VaultState';

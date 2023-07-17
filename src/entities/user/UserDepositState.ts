@@ -1,7 +1,7 @@
 import { Address } from '@graphprotocol/graph-ts';
 import { Block,  UserDeposit, UserDepositState } from '../../../generated/schema';
 import { makeUserDepositStateId } from '../../utils/ids';
-import { Vault as VaultContract } from './../../../generated/templates/Vault/Vault';
+import { Vault as VaultContract } from '../../../generated/templates/Vault/Vault';
 
 export function lcUserDepositState(
   deposit: UserDeposit,

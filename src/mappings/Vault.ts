@@ -1,18 +1,9 @@
-import { Deposit, StrategyAdded, StrategyMigrated, StrategyReported, StrategyRevoked, StrategyUpdateDebtRatio, StrategyUpdateMaxDebtPerHarvest, Transfer, Withdraw } from './../../generated/templates/Vault/Vault';
+import { Deposit, StrategyAdded, StrategyMigrated, StrategyReported, StrategyRevoked, StrategyUpdateDebtRatio, StrategyUpdateMaxDebtPerHarvest, Transfer, Withdraw } from '../../generated/templates/Vault/Vault';
 import { Address, dataSource } from '@graphprotocol/graph-ts';
+import { cuVaultState, lStrategy, lVault, lcHarvest, lcStrategy } from '../entities/Vault';
 import { lcBlock, lcTransaction } from '../entities/blockchain';
-import { lVault } from '../entities/protocol';
-import { lcUser } from '../entities/user';
-import {
-  lcUserDepositState,
-} from '../entities/collateral';
+import { cuLastUserDepositState, laVaultUsers, lcUser, lcUserDeposit, lcUserDepositState } from '../entities/user';
 
-import { lcUserDeposit } from '../entities/deposit';
-import { cuVaultState } from '../entities/protocol/VaultState';
-import { cuLastUserDepositState } from '../entities/deposit/LastUserDepositState';
-import { lcHarvest } from '../entities/protocol/Harvest';
-import { lStrategy, lcStrategy } from '../entities/protocol/Strategy';
-import { laVaultUsers } from '../entities/user/vaultUsers';
 
 
 export function handleDeposit(evmEvent: Deposit): void {

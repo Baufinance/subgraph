@@ -1,7 +1,7 @@
 import { ethereum } from '@graphprotocol/graph-ts';
 import { UserDeposit } from '../../../generated/schema';
 import { makeUserDepositId } from '../../utils/ids';
-import { laVaultUsers } from '../user/vaultUsers';
+import { laVaultUsers } from './VaultUsers';
 
 export function lcUserDeposit(
   userId: string,
