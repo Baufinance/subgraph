@@ -1,36 +1,61 @@
 specVersion: 0.0.5
 schema:
   file: ./schema.graphql
+features:
+  - fullTextSearch
 dataSources:
   - kind: ethereum
-    name: Factory
+    name: CurveFactory
     network: mainnet
     source:
       address: "0x3d9819210A31b4961b30EF54bE2aeD79B9c9Cd3B"
-      abi: Factory
+      abi: CurveFactory
       startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - NewPendingImplementation
-        - NewImplementation
-        - NewPendingAdmin
-        - NewAdmin
-        - Failure
+        - Vault
       abis:
-        - name: Factory
-          file: ./abis/Factory.json
+        - name: CurveFactory
+          file: ./abis/CurveFactory.json
+        - name: LPToken
+          file: ./abis/LPToken.json
+        - name: ERC20
+          file: ./abis/ERC20.json
       eventHandlers:
-        - event: NewPendingImplementation(address,address)
-          handler: handleNewPendingImplementation
-        - event: NewImplementation(address,address)
-          handler: handleNewImplementation
-        - event: NewPendingAdmin(address,address)
-          handler: handleNewPendingAdmin
-        - event: NewAdmin(address,address)
-          handler: handleNewAdmin
-        - event: Failure(uint256,uint256,uint256)
-          handler: handleFailure
-      file: ./src/factory.ts
+        - event: NewVault(indexed address,address,indexed address,address,uint8)
+          handler: handleNewVault
+      file: ./src/mappings/CurveFactory.ts
+templates:
+  - kind: ethereum
+    name: Vault
+    network: mainnet
+    source:
+      abi: Vault
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Vault
+      abis:
+        - name: CurveFactory
+          file: ./abis/CurveFactory.json
+        - name: Vault
+          file: ./abis/Vault.json
+        - name: Registry
+          file: ./abis/Registry.json
+        - name: LPToken
+          file: ./abis/LPToken.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+      eventHandlers:
+        - event: Deposit(indexed address,uint256,uint256)
+          handler: handleDeposit
+        - event: StrategyAdded(indexed address,uint256,uint256,uint256)
+          handler: handleStrategyAdded
+        - event: StrategyReported(indexed address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
+          handler: handleStrategyReported
+      file: ./src/mappings/Vault.ts

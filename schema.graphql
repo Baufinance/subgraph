@@ -1,45 +1,177 @@
-type NewPendingImplementation @entity(immutable: true) {
-  id: Bytes!
-  oldPendingImplementation: Bytes! # address
-  newPendingImplementation: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+#############
+### VAULT ###
+#############
+
+type Vault @entity(immutable: true){
+  "{vaultAddress}"
+  id: ID!
+  vaultAddress: String!
+  name: String!
+  symbol: String!
+  decimals: BigInt!
+  lpToken: Token!
+  lpTokenName: String!
+  gauge: String!
+  poolType: CurveType!
+  vaultInfo: VaultState!
+  lpBreakDownSource: LPBreakdownSource!
+  strategies: [Strategy!]! @derivedFrom(field: "vault")
+  updatedAtBlock: BigInt!
 }
 
-type NewImplementation @entity(immutable: true) {
-  id: Bytes!
-  oldImplementation: Bytes! # address
-  newImplementation: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type VaultState @entity {
+  "{vault.id}"
+  id: ID!
+  vault: Vault!
+  lastHarvest: BigInt!
+  totalAssets: BigInt!
+  pricePerOneShare: BigInt!  
+  harvests: [Harvest!]! @derivedFrom(field: "vault")
+  }
+
+type LPBreakdownSource @entity(immutable: true) {
+  "{vault.id}"
+  id: ID!
+  vault: Vault!
+  lpToken: Token!
+  pool: String!
+  registry: String!
 }
 
-type NewPendingAdmin @entity(immutable: true) {
-  id: Bytes!
-  oldPendingAdmin: Bytes! # address
-  newPendingAdmin: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type Strategy @entity{
+  "{vault.id}-{strategyAddress}"
+  id: ID!
+  vault: Vault!
+  address: String!
+  isActive: Boolean!
+  debtRatio: BigInt!
+  minDebtPerHarvest: BigInt!
+  maxDebtPerHarvest: BigInt!
 }
 
-type NewAdmin @entity(immutable: true) {
-  id: Bytes!
-  oldAdmin: Bytes! # address
-  newAdmin: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type Harvest @entity(immutable: true){
+  "{vault.id}-{updatedAtBlock}"
+  id: ID!
+  vault: VaultState!
+  pricePerShare: BigInt!
+  reportInfo: ReportInfo!
+  block: Block!
 }
 
-type Failure @entity(immutable: true) {
-  id: Bytes!
-  error: BigInt! # uint256
-  info: BigInt! # uint256
-  detail: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+type ReportInfo @entity(immutable: true){
+  "{HarvestId}"
+  id: ID!
+  strategy: String!
+  gain: BigInt!
+  loss: BigInt!
+  debtPaid: BigInt!
+  totalGain: BigInt!
+  totalLoss: BigInt!
+  totalDebt: BigInt!
+  debtAdded: BigInt!
+  debtRatio: BigInt!
 }
+
+type _Schema_
+  @fulltext(
+    name: "vaultSearch"
+    language: en
+    algorithm: rank
+    include: [{ entity: "Vault", fields: [{ name: "name" }, { name: "lpToken" }, { name: "lpTokenName" }, { name: "poolType" }, { name: "vaultAddress" }] }]
+  )
+  
+enum CurveType {
+    NONE,
+    METAPOOL_3CRV,
+    COINS2,
+    COINS3,
+    COINS4,
+    METAPOOL_SBTC
+}
+
+# ############
+# ### USER ###
+# ############
+
+type User @entity(immutable: true) {
+  "{accountAddress}"
+  id: ID!
+  updatedAtBlock: BigInt!
+  deposits: [UserDeposit!]! @derivedFrom(field: "user")
+  transactions: [Transaction!]! @derivedFrom(field: "user")
+}
+
+type _VaultUsers @entity {
+  "{vault.id}"
+  id: ID!
+  vault: Vault!
+  vaultUsers: [User!]!
+}
+
+# ####################
+# ### USER DEPOSIT ###
+# ####################
+
+type UserDeposit @entity(immutable: true) {
+  "{user.id}-{vault.id}"
+  id: ID!
+  user: User!
+  vault: Vault!
+  updatedAtBlock: BigInt!
+  states: [UserDepositState!]! @derivedFrom(field: "deposit")
+  lastUserDepositState: [LastUserDepositState!]! @derivedFrom(field: "deposit")
+}
+
+type UserDepositState @entity (immutable: true) {
+  "{deposit.id}-{updatedAtBlock}"
+  id: ID!
+  deposit: UserDeposit!
+  lpTokenAmount: BigInt!
+  shareTokenAmount: BigInt!
+  pricePerShare: BigInt!
+  block: Block!
+  updatedAtBlock: BigInt!
+}
+
+type LastUserDepositState @entity {
+  "{deposit.id}"
+  id: ID!
+  deposit: UserDeposit!
+  state: UserDepositState!
+}
+
+# ##################
+# ### BLOCKCHAIN ###
+# ##################
+
+type Transaction @entity(immutable: true) {
+  "{txHash}"
+  id: ID!
+  index: Int!
+  user: User!
+  vault: Vault!
+  block: Block!
+  updatedAtBlock: BigInt!
+
+}
+
+type Block @entity(immutable: true) {
+  "{blockNumber}"
+  id: ID!
+  number: BigInt!
+  timeUnix: BigInt!
+  updatedAtBlock: BigInt!
+}
+
+# #############
+# ### OTHER ###
+# #############
+
+type Token @entity(immutable: true) {
+  "{tokenAddress}"
+  id: ID!
+  name: String!
+  symbol: String!
+  decimals: Int!
+}
+
